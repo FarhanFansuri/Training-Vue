@@ -1,54 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <style>
-        .red-text{
-            background-color: aqua;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+    integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <style>
+    .red-text {
+      background-color: aqua;
+    }
+  </style>
 </head>
+
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary app-nav">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="#">Navbar</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-              <li class="nav-item" v-for="(page,index) in pages" v-bind:key="index" >
-                <a class="nav-link" v-bind:class="{active: indexPage == index, 'red-text':indexPage == index}" aria-current="page" v-bind:href="page.url" v-on:click.prevent="indexPage = index">{{ page.page }}</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    <div class="container mt-5 app">
-        <h1>Hello, World</h1>
-        <p>This is {{ pages[indexPage].content }} </p>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary app-nav">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Navbar</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item" v-for="(page,index) in pages" v-bind:key="index">
+            <a class="nav-link" v-bind:class="{active: indexPage == index, 'red-text':indexPage == index}"
+              aria-current="page" v-bind:href="page.url" v-on:click.prevent="indexPage = index">{{ page.page }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+          </li>
+        </ul>
+      </div>
     </div>
-    <script>
-        Vue.createApp({
-            data(){
-                return{
-                    indexPage : 0,
-                    pages:[
-                    {page : 'Home', url:'index.html', content:" Home Page"},
-                    {page : 'About', url:'about.html', content:" About Page"},
-                    {page : 'Contact', url:'contact.html',content:" Contact Page"},]
-                }
-            }
-        }).mount('body')
-    </script>
+  </nav>
+  <page-view v-bind:page-content="pages[indexPage].content"></page-view>
+  <script>
+    let app = Vue.createApp({
+      data() {
+        return {
+          indexPage: 0,
+          pages: [
+            { page: 'Home', url: 'index.html', content: " Home Page" },
+            { page: 'About', url: 'about.html', content: " About Page" },
+            { page: 'Contact', url: 'contact.html', content: " Contact Page" },]
+        }
+      }
+    })
+
+    app.component('page-view', {
+      props: ['pageContent'],
+      template: `
+      <div class="container mt-5 app">
+        <h1>Hello, World</h1>
+        <p>Ini {{pageContent}} </p>
+      </div>
+      `
+    })
+    app.mount('body')
+
+  </script>
 </body>
+
 </html>
